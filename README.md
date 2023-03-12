@@ -10,6 +10,7 @@ This app lets you handle tickets when teaching
 
 ### To Do :
 * the app was made with only one teacher for many students => tickets should be a attributed to a specific teacher (when there is more)
+* main teacher should be able to `.assistant!` on Assistant users
 * students should be able to send homeworks at the end of class
 * teacher should be able to post documentation for students
 
