@@ -1,11 +1,27 @@
 # Work in progress
 
-## Ticketor
+## Ticketor : ticket app manager
 This app lets you handle tickets when teaching
-* students can sign up
-* students can create and cancel tickets
+
+* students can sign up/sign in
+* students can create and cancel their own tickets
 * teachers can resolve tickets
 * teachers can see details about the teaching day
 
-### Front with tailwindCSS
-### Rails 7 + importmaps
+### To Do :
+* the app was made with only one teacher for many students => tickets should be a attributed to a specific teacher (when there is more)
+* students should be able to send homeworks at the end of class
+* teacher should be able to post documentation for students
+
+
+## Stack
+* Rails 7
+* tailwindCSS
+* importmaps
+
+## Want to use ?
+* `git clone`
+* `bundle install`
+* `npm install`
+* `rails db:create && db:migrate`
+* serve from your machine with `ngrok` or deploy wherever you prefer
