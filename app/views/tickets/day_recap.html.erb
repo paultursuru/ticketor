@@ -1,0 +1,19 @@
+<h1 class="text-2xl">Day Recap</h1>
+<h2 class="text-xl"><%= Date.today.day %>/<%= Date.today.month %></h2>
+<div class="flex wrap w-full mt-5">
+  <div class="flex flex-col justify-start items-center w-1/2 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+    <h3 class="text-2xl">Ticket Count</h3>
+    <p><%= pluralize(@ticket_count, "ticket") %></p>
+  </div>
+  <div class="flex flex-col justify-start items-center w-1/2 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+    <h3 class="text-2xl">Ticket Duration</h3>
+    <p>
+      <% if @ticket_unit == 'minute'%>
+        <%= pluralize(@ticket_duration, "minute")%>
+      <% else %>
+        less than a minute 🔥
+        <em class="text-xs"><%= pluralize(@ticket_duration, "second") %></em>
+      <% end %>
+    </p>
+  </div>
+</div>

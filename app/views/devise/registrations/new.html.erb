@@ -1,0 +1,30 @@
+<h2 class="font-mono text-2xl mb-10">Sign up</h2>
+
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field mt-2">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"text-black", placeholder: "your email" %>
+  </div>
+
+  <div class="field mt-2">
+    <%= f.input :username, label: false, autofocus: true, autocomplete: "username", class:"text-black", placeholder: "your username" %>
+  </div>
+
+  <div class="field flex flex-col mt-2">
+    <%= f.password_field :password, autocomplete: "new-password", class:"text-black", placeholder: "your password" %>
+    <% if @minimum_password_length %>
+    <em class="text-xs">(minimum <%= @minimum_password_length %> characters)</em>
+    <% end %>
+  </div>
+
+  <div class="field mt-2">
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"text-black", placeholder: "password again" %>
+  </div>
+
+  <div class="actions my-10">
+    <%= f.submit "Sign up", class:"rounded-full text-white bg-sky-700 py-3 px-4"  %>
+    <%= render "devise/shared/links" %>
+  </div>
+<% end %>
+

@@ -1,0 +1,6 @@
+<% if notice %>
+  <p data-controller="flashes" class="notice w-auto py-2 px-4 bg-emerald-900 absolute top-5 left-5 rounded transition-opacity delay-300"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p data-controller="flashes" class="notice w-auto py-2 px-4 bg-red-900 absolute top-5 left-5 rounded transition-opacity delay-300"><%= alert %></p>
+<% end %>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ticketor</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="font-mono bg-nightmode text-white">
+    <%= render 'shared/navbar' %>
+    <%= render 'shared/flashes' %>
+
+    <main class="container mx-auto mt-28">
+      <div class="mx-10 px-5 flex justify-start flex-col items-center min-h-screen">
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>

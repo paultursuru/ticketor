@@ -1,0 +1,32 @@
+<div class="flex w-2/3 justify-between mb-5">
+  <h1 class="text-3xl font-bold underline">Tickets</h1>
+
+</div>
+<div class="tickets w-2/3">
+  <div class="add-ticket my-5 bg-purple-100 rounded p-3 text-purple-900">
+    <%= simple_form_for @ticket do |f| %>
+      <div class="flex justify-between items-center">
+        <%= f.input :content, as: :text, label: false, placeholder: 'describe your issue here', input_html: {class: 'w-full'}, wrapper_html: {class: 'w-11/12 mr-3'} %>
+        <%= f.submit 'send help !', class: 'rounded bg-purple-700 text-purple-100 py-2 px-4' %>
+      </div>
+    <% end %>
+  </div>
+  <% @tickets.each do |ticket| %>
+    <div class="ticket my-5 bg-purple-700 rounded p-3 group">
+      <div class="flex justify-between items-center">
+        <h3 class="mb-2 text-xl"><%= username(ticket) %></h3>
+        <em class="text-xs"><%= created_on(ticket) %></em>
+      </div>
+      <div class="flex justify-between items-end my-2">
+        <p><%= ticket.content %></p>
+
+        <% if current_user.teacher? || owned_by_me?(ticket) %>
+          <div class="hidden group-hover:block">
+            <%= link_to 'close ticket !', ticket_path(ticket), data: {turbo_method: :delete}, class:'bg-emerald-700 text-white rounded py-2 px-4' %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  <% end %>
+</div>

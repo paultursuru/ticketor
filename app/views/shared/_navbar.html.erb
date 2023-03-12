@@ -1,0 +1,15 @@
+<% if user_signed_in? %>
+  <div class="absolute top-5 left-5">
+    <% unless (action_name == "index" && controller_name == "tickets") %>
+      <%= link_to root_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' do %>
+        <i class="fa-solid fa-arrow-left"></i><span class="ml-2">back to tickets</span>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="flex justify-end items-center absolute top-5 right-5">
+    <% unless action_name == "day_recap"%>
+      <%= link_to 'Daily Recap', recap_tickets_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
+    <% end %>
+    <%= button_to 'sign out', destroy_user_session_path, method: :delete, data: { turbo: false }, class:'rounded-full bg-red-500 py-2 px-4' %>
+  </div>
+<% end %>
