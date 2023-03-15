@@ -1,0 +1,11 @@
+<div class="add-ticket my-5 bg-purple-100 rounded p-3 text-purple-900">
+  <h3 class="text-xl">You can copy paste in this form the title and url of your webpage</h3>
+  <p class="text-m italic mb-2">the url should be a google drive sharing link</p>
+  <%= simple_form_for @homework do |f| %>
+    <div class="flex">
+      <%= f.input :title, label: false, placeholder: 'title of your homework', wrapper_html: {class: 'p-2 w-1/3'} %>
+      <%= f.input :url, label: false, placeholder: 'url of your homework', wrapper_html: {class: 'p-2 w-2/3'} %>
+    </div>
+    <%= f.submit 'Save my homework', class: 'rounded bg-emerald-900 text-white py-2 px-4' %>
+  <% end %>
+</div>

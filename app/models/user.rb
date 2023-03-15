@@ -7,8 +7,11 @@ class User < ApplicationRecord
   enum status: ["student", "assistant", "teacher"]
 
   has_many :tickets, dependent: :destroy
+  has_many :homework, dependent: :destroy
 
   validates :username, presence: true
+
+  scope :ticketable, -> { where({ status: ["teacher", "assistant"]})}
 
   def is_team?
     assistant? || teacher?

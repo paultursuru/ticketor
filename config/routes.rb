@@ -6,8 +6,9 @@ Rails.application.routes.draw do
       get :day_recap, as: :recap
     end
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :homeworks, only: [:index, :new, :create, :edit, :update, :destroy] do
+    member do
+      get :grade
+    end
+  end
 end

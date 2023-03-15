@@ -9,7 +9,7 @@ class TicketsController < ApplicationController
     # change data depending on date params
     @ticket_resolved = Ticket.resolved
     @ticket_count = @ticket_resolved&.count
-    average_duration_in_words if @ticket_count
+    average_duration_in_words unless @ticket_count == 0
   end
 
   def average_duration_in_words

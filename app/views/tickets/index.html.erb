@@ -1,6 +1,5 @@
 <div class="flex w-2/3 justify-between mb-5">
   <h1 class="text-3xl font-bold underline">Tickets</h1>
-
 </div>
 <div class="tickets w-2/3">
   <div class="add-ticket my-5 bg-purple-100 rounded p-3 text-purple-900">
@@ -14,7 +13,7 @@
   <% @tickets.each do |ticket| %>
     <div class="ticket my-5 bg-purple-700 rounded p-3 group">
       <div class="flex justify-between items-center">
-        <h3 class="mb-2 text-xl"><%= username(ticket) %></h3>
+        <h3 class="mb-2 text-xl"><%= username(ticket) %> to <%= teacher(ticket) %></h3>
         <em class="text-xs"><%= created_on(ticket) %></em>
       </div>
       <div class="flex justify-between items-end my-2">
