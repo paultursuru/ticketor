@@ -1,6 +1,7 @@
 class HomeworksController < ApplicationController
   def index
-    @homeworks = current_user.student? ? current_user.homeworks : Homework.all
+    redirect_to root_path if current_user.student?
+    @homeworks = Homework.all
   end
 
   def new
@@ -11,7 +12,7 @@ class HomeworksController < ApplicationController
     @homework = Homework.new(homework_params)
     @homework.user = current_user
     if @homework.save
-      redirect_to root_path
+      redirect_to homeworks_path
       flash[:notice] = "Thank you for your homework ✔️"
     else
       render :new, status: :unprocessable_entity

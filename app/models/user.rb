@@ -7,7 +7,7 @@ class User < ApplicationRecord
   enum status: ["student", "assistant", "teacher"]
 
   has_many :tickets, dependent: :destroy
-  has_many :homework, dependent: :destroy
+  has_many :homeworks, dependent: :destroy
 
   validates :username, presence: true
 

@@ -5,7 +5,14 @@ class Ticket < ApplicationRecord
 
   validates :content, presence: true
 
+  scope :from_today, -> { where("created_at <= ? ", Date.today)}
+  scope :from_day, ->(argument){ where("created_at <= ? ", argument).where("created_at >= ? ", argument - 1.days ) }
+
   enum status: [:pending, :resolved]
+
+  def attribute_teacher!
+    self.teacher_id = User.ticketable.sample.id
+  end
 
   def today?
     created_at.day == Date.today.day
@@ -17,9 +24,6 @@ class Ticket < ApplicationRecord
 
   private
 
-  def attribute_teacher!
-    teacher_id = User.ticketable.sample.id
-  end
 
   def teacher_is_empty?
     teacher_id.nil?

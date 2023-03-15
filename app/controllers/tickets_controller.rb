@@ -7,7 +7,7 @@ class TicketsController < ApplicationController
   def day_recap
     redirect_to root_path unless user_is_team?
     # change data depending on date params
-    @ticket_resolved = Ticket.resolved
+    @ticket_resolved = Ticket.from_today.resolved
     @ticket_count = @ticket_resolved&.count
     average_duration_in_words unless @ticket_count == 0
   end
@@ -27,7 +27,8 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
     @ticket.user = current_user
-    @tickets = Ticket.all.order(created_at: :desc)
+    @tickets = Ticket.pending.order(created_at: :desc)
+    @ticket.attribute_teacher!
     if @ticket.save
       redirect_to root_path
       flash.notice = "Ticket created 😉"

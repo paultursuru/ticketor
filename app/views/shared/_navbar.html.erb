@@ -7,9 +7,9 @@
     <% end %>
   </div>
   <div class="flex justify-end items-center absolute top-5 right-5">
-    <%= link_to 'Tickets', root_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.teacher? %>
-    <%= link_to 'Post my webpage', new_homework_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' %>
-    <%= link_to 'Homeworks', homeworks_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' %>
+    <%= link_to 'Tickets', root_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
+    <%= link_to 'Send my homework', new_homework_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' %>
+    <%= link_to 'Homeworks', homeworks_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
     <%= link_to 'Daily Recap', recap_tickets_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
     <%= button_to 'sign out', destroy_user_session_path, method: :delete, data: { turbo: false }, class:'rounded-full bg-red-500 py-2 px-4' %>
   </div>
