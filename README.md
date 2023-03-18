@@ -5,18 +5,20 @@ This app lets you handle tickets when teaching
 
 * students can sign up/sign in
 * students can create and cancel their own tickets
+* students can send homeworks at the end of class
 * teachers can resolve tickets
 * teachers can see details about the teaching day
+* teachers can grade students homeworks and export all grades into a csv
+
 
 ### To Do :
 * the app was made with only one teacher for many students => tickets should be a attributed to a specific teacher (when there is more)
-* main teacher should be able to `.assistant!` on Assistant users
-* students should be able to send homeworks at the end of class
+* main teacher should be able to turn users to `.assistant!`
 * teacher should be able to post documentation for students
 
 
 ## Stack
-* Rails 7
+* Rails 7 | turbo
 * tailwindCSS
 * importmaps
 
