@@ -16,4 +16,8 @@ class User < ApplicationRecord
   def is_team?
     assistant? || teacher?
   end
+
+  def has_a_homework?
+    homeworks.any?
+  end
 end

@@ -1,6 +1,18 @@
 <div class="flex w-2/3 justify-between mb-5">
-  <h1 class="text-3xl font-bold underline">Post my webpage</h1>
+  <h1 class="text-3xl font-bold underline">Send your homework</h1>
 </div>
+
+<% if current_user.has_a_homework? %>
+  <div class="w-2/3">
+    <div class="add-ticket my-5 bg-red-100 rounded p-3 text-red-500 text-xl font-bold">
+      WOW beware looks like you already posted your homework, if you send another one, the first one will be deleted !
+    </div>
+  </div>
+<% end %>
+
+
+
+
 <div class="tickets w-2/3">
   <%= render 'form' %>
 </div>

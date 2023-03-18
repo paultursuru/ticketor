@@ -1,0 +1,11 @@
+<div class="add-ticket my-5 bg-purple-100 rounded p-3 text-purple-900">
+  <%= simple_form_for ticket do |f| %>
+    <div class="flex flex-col justify-between items-end">
+      <%= f.input :content, as: :text, label: false, placeholder: 'describe your issue here...', input_html: {class: 'w-full'}, wrapper_html: {class: 'w-full'} %>
+      <div class="flex justify-between h-full items-end mt-2">
+      <%= link_to "Cancel", root_path, class: "rounded bg-red-500 text-red-100 border border-red-700 py-2 px-4 mr-2 hover:text-red-500 hover:bg-red-100" %>
+      <%= f.submit 'Send help !', class: 'rounded bg-emerald-700 text-emerald-100 border border-emerald-700 py-2 px-4 cursor-pointer hover:bg-emerald-100 hover:text-emerald-700' %>
+      </div>
+    </div>
+  <% end %>
+</div>

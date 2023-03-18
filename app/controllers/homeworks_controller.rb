@@ -12,11 +12,15 @@ class HomeworksController < ApplicationController
     @homework = Homework.new(homework_params)
     @homework.user = current_user
     if @homework.save
-      redirect_to homeworks_path
-      flash[:notice] = "Thank you for your homework ✔️"
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: "Homework received ! 😉" }
+        format.turbo_stream { flash.now[:notice] = "Homework received ! 😉" }
+      end
     else
-      render :new, status: :unprocessable_entity
-      flash[:alert] = "Woupsy something went wrong 😬"
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity, alert: "Woupsy something went wrong 😬" }
+        format.turbo_stream { flash.now[:alert] = "Woupsy something went wrong 😬"}
+      end
     end
   end
 
@@ -39,6 +43,16 @@ class HomeworksController < ApplicationController
     end
     respond_to do |format|
       format.json { render json: @homework }
+    end
+  end
+
+  def student_recap
+    redirect_to root_path unless current_user.teacher?
+    @homeworks = Homework.all
+    @graded = @homeworks.graded
+    respond_to do |format|
+      format.html
+      format.csv { send_data @homeworks.to_csv, filename: "grades-#{Date.today}.csv" }
     end
   end
 

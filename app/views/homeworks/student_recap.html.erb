@@ -1,0 +1,32 @@
+<div class="flex w-2/3 mb-5 justify-between">
+    <h1 class="text-3xl font-bold underline">Homeworks</h1>
+    <%= link_to 'export grades 💾', recap_homeworks_path(format: 'csv'),
+                  class: "rounded bg-purple-100 text-purple-900 border-purple-900 py-2 px-4" %>
+</div>
+
+<div class="flex wrap w-2/3 mt-5">
+  <div class="flex flex-col justify-start items-center w-1/2 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+    <h3 class="text-2xl">Graded</h3>
+    <p><%= @graded.count%></p>
+  </div>
+  <div class="flex flex-col justify-start items-center w-1/2 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+    <h3 class="text-2xl">Homeworks</h3>
+    <p><%= @homeworks.count%> received</p>
+  </div>
+  <div class="flex flex-col justify-start items-center w-1/2 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+    <h3 class="text-2xl">Students</h3>
+    <p><%= User.student.count%></p>
+  </div>
+</div>
+
+<div class="flex w-2/3 justify-start mt-8">
+  <h1 class="text-2xl underline">Received</h1>
+</div>
+<div class="flex wrap w-2/3 mt-5">
+  <% @homeworks.each do |homework| %>
+    <div class="flex flex-col justify-start items-center w-1/3 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+      <h3 class="text-2xl"><%= homework.user.username %></h3>
+      <p><%= homework.grade %></p>
+    </div>
+  <% end %>
+</div>

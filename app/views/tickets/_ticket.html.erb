@@ -1,0 +1,14 @@
+<%= turbo_frame_tag ticket do %>
+  <div class="ticket my-5 bg-purple-700 rounded p-3 group shadow-light hover:shadow-lg">
+    <div class="flex justify-between items-center">
+      <h3 class="mb-2 text-xl"><%= ticket.user.username %></h3>
+      <em class="text-xs"><%= created_on(ticket) %></em>
+    </div>
+    <div class="flex justify-between items-end my-2">
+      <p><%= ticket.content %></p>
+      <div class="hidden group-hover:block">
+        <%= link_to 'problem solved !', ticket_path(ticket), data: {turbo_method: :delete}, class:'bg-emerald-700 text-white rounded py-2 px-4' %>
+      </div>
+    </div>
+  </div>
+<% end %>

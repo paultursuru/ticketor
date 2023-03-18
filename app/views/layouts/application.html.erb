@@ -12,8 +12,10 @@
   </head>
 
   <body class="font-mono bg-nightmode text-white">
+    <div id="flashes" class="w-full absolute mx-auto flex justify-center -mt-20 z-10">
+      <%= render 'shared/flashes' %>
+    </div>
     <%= render 'shared/navbar' %>
-    <%= render 'shared/flashes' %>
 
     <main class="container mx-auto mt-28">
       <div class="mx-10 px-5 flex justify-start flex-col items-center min-h-screen">

@@ -10,6 +10,8 @@ class Ticket < ApplicationRecord
 
   enum status: [:pending, :resolved]
 
+  # after_create_commit -> { broadcast_prepend_to "tickets", partial: "tickets/ticket", locals: { ticket: self } }
+
   def attribute_teacher!
     self.teacher_id = User.ticketable.sample.id
   end

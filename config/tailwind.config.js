@@ -12,6 +12,9 @@ module.exports = {
       colors: {
         'nightmode': 'rgb(25, 1, 28)'
       },
+      boxShadow: {
+        'light': '0 0 26px 5px rgba(0, 0, 0, 0.5)',
+      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },

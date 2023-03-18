@@ -1,0 +1,7 @@
+<%= link_to sanitize("&larr; Back to quotes"), root_path %>
+
+<h1 class="text-3xl font-bold underline">New ticket</h1>
+
+<%= turbo_frame_tag @ticket do %>
+  <%= render "form", ticket: @ticket %>
+<% end %>

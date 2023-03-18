@@ -10,4 +10,8 @@ module ApplicationHelper
       something.created_at.strftime("on %B #{something.created_at.day.ordinalize} at %H:%M")
     end
   end
+
+  def render_turbo_stream_flash_messages
+    turbo_stream.prepend "flashes", partial: "shared/flashes"
+  end
 end

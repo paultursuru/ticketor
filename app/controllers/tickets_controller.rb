@@ -1,6 +1,6 @@
 class TicketsController < ApplicationController
   def index
-    @tickets = Ticket.pending.order(created_at: :desc)
+    @tickets = Ticket.pending.ordered
     @ticket = Ticket.new
   end
 
@@ -24,27 +24,36 @@ class TicketsController < ApplicationController
     end
   end
 
+  def new
+    @ticket = Ticket.new
+  end
+
   def create
     @ticket = Ticket.new(ticket_params)
     @ticket.user = current_user
-    @tickets = Ticket.pending.order(created_at: :desc)
+    @tickets = Ticket.pending.ordered
     @ticket.attribute_teacher!
     if @ticket.save
-      redirect_to root_path
-      flash.notice = "Ticket created 😉"
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: "Ticket created 😉" }
+        format.turbo_stream { flash.now[:notice] = "Ticket created 😉" }
+      end
+      @ticket.broadcast_append_to "tickets", partial: "tickets/ticket", locals: { ticket: @ticket }, target: "tickets"
     else
-      render :index, status: :unprocessable_entity
-      flash.alert = "you must give some content to your ticket"
+      render :index, status: :unprocessable_entity, alert: "you must give some content to your ticket"
     end
   end
 
   def destroy
-    ticket = Ticket.find(params[:id])
-    redirect_to root_path unless user_can_destroy?(ticket)
-    ticket.resolved!
+    @ticket = Ticket.find(params[:id])
+    redirect_to root_path unless user_can_destroy?(@ticket)
+    @ticket.resolved!
     # ticket.destroy
-    redirect_to root_path, status: :see_other
-    flash.notice = 'ticket destroyed 🔥'
+    respond_to do |format|
+      format.html { redirect_to root_path, status: :see_other, notice: "Ticket destroyed 🔥" }
+      format.turbo_stream { flash.now[:notice] = "Ticket destroyed 🔥" }
+    end
+    @ticket.broadcast_remove_to "tickets"
   end
 
   private
