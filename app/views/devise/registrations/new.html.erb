@@ -4,22 +4,22 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field mt-2">
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"text-black", placeholder: "your email" %>
+    <%= f.input :username, label: false, autofocus: true, autocomplete: "username", input_html: {class: "text-black"}, placeholder: "your full name" %>
   </div>
 
   <div class="field mt-2">
-    <%= f.input :username, label: false, autofocus: true, autocomplete: "username", class:"text-black", placeholder: "your username" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-white focus:outline-none focus:ring-0 focus:border-blue-500 text-gray-400 leading-6 transition-colors duration-200 ease-in-out string required text-black", placeholder: "your email" %>
   </div>
 
   <div class="field flex flex-col mt-2">
-    <%= f.password_field :password, autocomplete: "new-password", class:"text-black", placeholder: "your password" %>
+    <%= f.password_field :password, autocomplete: "new-password", class:"shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-white focus:outline-none focus:ring-0 focus:border-blue-500 text-gray-400 leading-6 transition-colors duration-200 ease-in-out string required text-black", placeholder: "your password" %>
     <% if @minimum_password_length %>
     <em class="text-xs">(minimum <%= @minimum_password_length %> characters)</em>
     <% end %>
   </div>
 
   <div class="field mt-2">
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"text-black", placeholder: "password again" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-white focus:outline-none focus:ring-0 focus:border-blue-500 text-gray-400 leading-6 transition-colors duration-200 ease-in-out string required text-black", placeholder: "password again" %>
   </div>
 
   <div class="actions my-10">

@@ -3,5 +3,11 @@
 <h1 class="text-3xl font-bold underline">New ticket</h1>
 
 <%= turbo_frame_tag @ticket do %>
-  <%= render "form", ticket: @ticket %>
+
+  <% if current_user.tickets.pending.empty? %>
+    <%= render "form", ticket: @ticket %>
+  <% else %>
+    <p class="text-red-700">You already have a pending ticket.</p>
+  <% end %>
+
 <% end %>

@@ -4,13 +4,12 @@ class Ticket < ApplicationRecord
   belongs_to :teacher, class_name: 'User', foreign_key: 'teacher_id'
 
   validates :content, presence: true
+  before_validation :return_invalid, unless: :has_no_ticket?, on: :create
 
   scope :from_today, -> { where("created_at <= ? ", Date.today)}
   scope :from_day, ->(argument){ where("created_at <= ? ", argument).where("created_at >= ? ", argument - 1.days ) }
 
   enum status: [:pending, :resolved]
-
-  # after_create_commit -> { broadcast_prepend_to "tickets", partial: "tickets/ticket", locals: { ticket: self } }
 
   def attribute_teacher!
     self.teacher_id = User.ticketable.sample.id
@@ -24,8 +23,16 @@ class Ticket < ApplicationRecord
     (updated_at - created_at).round
   end
 
+  def return_invalid
+    errors.add(:base, "You already have a ticket")
+    false
+  end
+
   private
 
+  def has_no_ticket?
+    user.tickets.pending.empty?
+  end
 
   def teacher_is_empty?
     teacher_id.nil?

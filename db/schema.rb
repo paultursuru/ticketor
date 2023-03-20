@@ -11,8 +11,11 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_03_13_111037) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "homeworks", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.string "title"
     t.string "url"
     t.datetime "created_at", null: false
@@ -22,12 +25,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_111037) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
-    t.integer "teacher_id", null: false
+    t.bigint "teacher_id", null: false
     t.index ["teacher_id"], name: "index_tickets_on_teacher_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
