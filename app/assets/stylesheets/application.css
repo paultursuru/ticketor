@@ -13,3 +13,6 @@
  *= require_tree .
  *= require_self
  */
+.teacher .ticket:hover .cancel-ticket {
+  display: block;
+}

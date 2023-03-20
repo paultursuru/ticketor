@@ -6,7 +6,7 @@
     </div>
     <div class="flex justify-between items-end my-2">
       <p><%= ticket.content %></p>
-      <div class="hidden group-hover:block">
+      <div class="hidden cancel-ticket cancel-<%= ticket.user.id %>" data-ticketable-target="cancelBtn">
         <%= link_to 'problem solved !', ticket_path(ticket), data: {turbo_method: :delete}, class:'bg-emerald-700 text-white rounded py-2 px-4' %>
       </div>
     </div>

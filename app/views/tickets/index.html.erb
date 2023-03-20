@@ -17,7 +17,7 @@
 <div class="tickets w-2/3">
   <%= turbo_frame_tag @ticket %>  <%# frame tag targeted when clicking on new path %>
   <%= turbo_stream_from "tickets" %>  <%# connecting to broadcast / stream %>
-  <%= turbo_frame_tag "tickets", class:"#{'teacher' if current_user.teacher?}" do %> <%# frame tag targeted after create %>
+  <%= turbo_frame_tag "tickets", class:"#{'teacher' if current_user.teacher?}", data: {controller: "ticketable", ticketable_cancel_id_value: "cancel-#{current_user.id}"} do %> <%# frame tag targeted after create %>
     <%= render @tickets %>
   <% end %>
 </div>
