@@ -6,7 +6,7 @@ class Ticket < ApplicationRecord
   validates :content, presence: true
   before_validation :return_invalid, unless: :has_no_ticket?, on: :create
 
-  scope :from_today, -> { where("created_at <= ? ", Date.today)}
+  scope :from_today, -> { where("created_at <= ? ", Date.today + 1.days).where("created_at >= ? ", Date.today)}
   scope :from_day, ->(argument){ where("created_at <= ? ", argument).where("created_at >= ? ", argument - 1.days ) }
 
   enum status: [:pending, :resolved]

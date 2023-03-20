@@ -15,7 +15,8 @@
     <div id="flashes" class="w-full absolute mx-auto flex justify-center -mt-20 z-10">
       <%= render 'shared/flashes' %>
     </div>
-    <%= render 'shared/navbar' %>
+
+    <%= render 'shared/navbar' if user_signed_in? %>
 
     <main class="container mx-auto mt-28">
       <div class="mx-10 px-5 flex justify-start flex-col items-center min-h-screen">

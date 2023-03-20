@@ -5,7 +5,7 @@ class TicketsController < ApplicationController
   end
 
   def day_recap
-    redirect_to root_path unless user_is_team?
+    redirect_to root_path unless current_user.is_team?
     # change data depending on date params
     @ticket_resolved = Ticket.from_today.resolved
     @ticket_count = @ticket_resolved&.count

@@ -1,6 +1,3 @@
-
-User.destroy_all
-
 User.create!(email: 'paul@mail.com', username: "Paulo", password: "123456", status: 2)
 User.create!(email: 'pablo@mail.com', username: "Pablo", password: "123456", status: 1)
 User.create!(email: 'paolito@mail.com', username: "Paolito", password: "123456", status: 1)
