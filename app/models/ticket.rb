@@ -11,6 +11,12 @@ class Ticket < ApplicationRecord
 
   enum status: [:pending, :resolved]
 
+  after_create_commit -> { broadcast_append_to "tickets" }
+
+  def self.ordered
+    order(created_at: :desc)
+  end
+
   def attribute_teacher!
     self.teacher_id = User.ticketable.sample.id
   end

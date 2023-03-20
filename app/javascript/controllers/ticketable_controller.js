@@ -5,10 +5,9 @@ export default class extends Controller {
   static values = { cancelId: String }
   static targets = [ "cancelBtn" ]
 
-  connect() {
-    this.showCancelBtns()
-
-  }
+  // connect() {
+  //   this.showCancelBtns()
+  // }
 
   showCancelBtns() {
     this.cancelBtnTargets.forEach((cancelBtn) => {

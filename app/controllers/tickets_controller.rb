@@ -38,20 +38,21 @@ class TicketsController < ApplicationController
         format.html { redirect_to root_path, notice: "Ticket created 😉" }
         format.turbo_stream { flash.now[:notice] = "Ticket created 😉" }
       end
-      @ticket.broadcast_append_to "tickets", partial: "tickets/ticket", locals: { ticket: @ticket }, target: "tickets"
     else
-      render :index, status: :unprocessable_entity, alert: "you must give some content to your ticket"
+      respond_to do |format|
+        format.html { render :index, status: :unprocessable_entity, alert: "you must give some content to your ticket" }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@ticket, partial: "tickets/form", locals: { ticket: @ticket }) }
+      end
     end
   end
 
   def destroy
     @ticket = Ticket.find(params[:id])
     redirect_to root_path unless user_can_destroy?(@ticket)
-    @ticket.resolved!
-    # ticket.destroy
+    @ticket.resolved! # we want to avoid @ticket.destroy because we want to keep the ticket in the database
     respond_to do |format|
-      format.html { redirect_to root_path, status: :see_other, notice: "Ticket destroyed 🔥" }
-      format.turbo_stream { flash.now[:notice] = "Ticket destroyed 🔥" }
+      format.html { redirect_to root_path, status: :see_other, notice: "Ticket resolved 🔥" }
+      format.turbo_stream { flash.now[:notice] = "Ticket resolved 🔥" }
     end
     @ticket.broadcast_remove_to "tickets"
   end
