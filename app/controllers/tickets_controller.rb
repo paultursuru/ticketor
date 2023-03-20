@@ -38,6 +38,7 @@ class TicketsController < ApplicationController
         format.html { redirect_to root_path, notice: "Ticket created 😉" }
         format.turbo_stream { flash.now[:notice] = "Ticket created 😉" }
       end
+      @ticket.broadcast_append_to "tickets"
     else
       respond_to do |format|
         format.html { render :index, status: :unprocessable_entity, alert: "you must give some content to your ticket" }
@@ -49,11 +50,12 @@ class TicketsController < ApplicationController
   def destroy
     @ticket = Ticket.find(params[:id])
     if user_can_destroy?(@ticket)
-      @ticket.resolved! # we want to avoid @ticket.destroy because we want to keep the ticket in the database
+      @ticket.resolved! # avoid @ticket.destroy because we want to keep the ticket in the database for stats
       respond_to do |format|
         format.html { redirect_to root_path, status: :see_other, notice: "Ticket resolved 🔥" }
         format.turbo_stream { flash.now[:notice] = "Ticket resolved 🔥" }
       end
+      # remove the ticket from the page only if the user is the owner of the ticket or if the user is a team member
       @ticket.broadcast_remove_to "tickets"
     else
       respond_to do |format|
@@ -71,8 +73,4 @@ class TicketsController < ApplicationController
   def user_can_destroy?(ticket)
     ticket.user == current_user || current_user.is_team?
   end
-
-  # def user_is_team?
-  #   current_user.teacher? || current_user.assistant?
-  # end
 end

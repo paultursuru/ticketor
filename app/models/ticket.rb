@@ -11,8 +11,6 @@ class Ticket < ApplicationRecord
 
   enum status: [:pending, :resolved]
 
-  after_create_commit -> { broadcast_append_to "tickets" }
-
   def self.ordered
     order(created_at: :asc)
   end
