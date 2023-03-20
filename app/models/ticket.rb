@@ -14,7 +14,7 @@ class Ticket < ApplicationRecord
   after_create_commit -> { broadcast_append_to "tickets" }
 
   def self.ordered
-    order(created_at: :desc)
+    order(created_at: :asc)
   end
 
   def attribute_teacher!

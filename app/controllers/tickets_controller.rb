@@ -48,13 +48,18 @@ class TicketsController < ApplicationController
 
   def destroy
     @ticket = Ticket.find(params[:id])
-    redirect_to root_path unless user_can_destroy?(@ticket)
-    @ticket.resolved! # we want to avoid @ticket.destroy because we want to keep the ticket in the database
-    respond_to do |format|
-      format.html { redirect_to root_path, status: :see_other, notice: "Ticket resolved 🔥" }
-      format.turbo_stream { flash.now[:notice] = "Ticket resolved 🔥" }
+    if user_can_destroy?(@ticket)
+      @ticket.resolved! # we want to avoid @ticket.destroy because we want to keep the ticket in the database
+      respond_to do |format|
+        format.html { redirect_to root_path, status: :see_other, notice: "Ticket resolved 🔥" }
+        format.turbo_stream { flash.now[:notice] = "Ticket resolved 🔥" }
+      end
+      @ticket.broadcast_remove_to "tickets"
+    else
+      respond_to do |format|
+        format.turbo_stream { flash.now[:alert] = "This ticket is not yours" }
+      end
     end
-    @ticket.broadcast_remove_to "tickets"
   end
 
   private
@@ -64,10 +69,10 @@ class TicketsController < ApplicationController
   end
 
   def user_can_destroy?(ticket)
-    ticket.user == current_user || user_is_team?
+    ticket.user == current_user || current_user.is_team?
   end
 
-  def user_is_team?
-    current_user.teacher? || current_user.assistant?
-  end
+  # def user_is_team?
+  #   current_user.teacher? || current_user.assistant?
+  # end
 end

@@ -1,2 +1,4 @@
-<%= turbo_stream.remove @ticket %>
+<% if @ticket.user == current_user || current_user.is_team? %>
+  <%= turbo_stream.remove @ticket %>
+<% end %>
 <%= render_turbo_stream_flash_messages %>
