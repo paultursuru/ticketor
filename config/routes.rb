@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :student_recap, as: :recap
+      get ":student/grade_zero", to: "homeworks#grade_zero", as: :grade_zero
     end
   end
 end

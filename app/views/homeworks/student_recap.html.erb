@@ -1,19 +1,28 @@
-<div class="flex w-2/3 mb-5 justify-between">
+<div class="flex w-2/3 mb-5 justify-start">
     <h1 class="text-3xl font-bold underline">Homeworks</h1>
-    <%= link_to 'export grades 💾', recap_homeworks_path(format: 'csv'),
-                  class: "rounded bg-purple-100 text-purple-900 border-purple-900 py-2 px-4" %>
 </div>
 
-<div class="flex wrap w-2/3 mt-5">
-  <div class="flex flex-col justify-start items-center w-1/2 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+<div class="grid grid-cols-3 gap-4 w-2/3 mt-5">
+  <% if @students_with_no_homework.empty? %>
+    <div class="flex w-full flex-col justify-center items-center col-span-3 bg-emerald-100 p-6 border-4 border-emerald-700 text-emerald-700 rounded">
+      <h3 class="text-xl">All good ! You can <%= link_to 'export grades 💾', recap_homeworks_path(format: 'csv'),
+                  class: "rounded bg-purple-100 shadow-lg text-purple-900 border-purple-900 py-2 px-4 " %> now 😉</h3>
+
+    </div>
+    <% else %>
+    <div class="flex w-full justify-center items-center col-span-3 bg-red-100 py-4 px-2 border-4 border-red-700 text-red-700 rounded">
+      <h3 class="text-xl">⚠️ looks like <%= pluralize(@students_with_no_homework.count, "student") %> didn't publish their homework ⚠️</h3>
+    </div>
+  <% end %>
+  <div class="flex flex-col justify-start items-center w-full bg-purple-100 text-purple-900 rounded border-purple-500 p-5 my-2">
     <h3 class="text-2xl">Graded</h3>
     <p><%= @graded.count%></p>
   </div>
-  <div class="flex flex-col justify-start items-center w-1/2 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+  <div class="flex flex-col justify-start items-center w-full bg-purple-100 text-purple-900 rounded border-purple-500 p-5 my-2">
     <h3 class="text-2xl">Homeworks</h3>
     <p><%= @homeworks.count%> received</p>
   </div>
-  <div class="flex flex-col justify-start items-center w-1/2 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+  <div class="flex flex-col justify-start items-center w-full bg-purple-100 text-purple-900 rounded border-purple-500 p-5 my-2">
     <h3 class="text-2xl">Students</h3>
     <p><%= User.student.count%></p>
   </div>
@@ -22,11 +31,26 @@
 <div class="flex w-2/3 justify-start mt-8">
   <h1 class="text-2xl underline">Received</h1>
 </div>
-<div class="flex wrap w-2/3 mt-5">
+<div class="grid grid-cols-4 gap-4 w-2/3 mt-5">
   <% @homeworks.each do |homework| %>
-    <div class="flex flex-col justify-start items-center w-1/3 bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2">
+    <div class="flex flex-col justify-start items-center w-full bg-purple-100 text-purple-900 rounded border-purple-500 p-5 my-2">
       <h3 class="text-2xl"><%= homework.user.username %></h3>
       <p><%= homework.grade %></p>
+    </div>
+  <% end %>
+</div>
+<div class="flex w-2/3 justify-start mt-8">
+  <h1 class="text-2xl underline">Not received</h1>
+</div>
+<div class="grid grid-cols-4 gap-4 w-2/3 mt-5">
+
+  <% @students_with_no_homework.each do |student| %>
+    <div class="flex flex-col justify-center items-center w-full overflow-hidden relative bg-purple-100 text-purple-900 rounded border-purple-500 p-5 m-2 group">
+      <h3 class="text-2xl"><%= student.username %></h3>
+      <%= link_to grade_zero_homeworks_path(student), class:'hidden group-hover:flex flex-col items-center justify-center absolute h-full w-full bg-red-700 text-red-100' do %>
+        <span>no homework ?</span>
+        <span>grade zero</span>
+      <% end %>
     </div>
   <% end %>
 </div>

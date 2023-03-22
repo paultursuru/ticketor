@@ -11,7 +11,7 @@
     <%= link_to 'Daily Recap', recap_tickets_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
     <%= link_to 'Send your homework', new_homework_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.student? %>
     <%= link_to 'Homeworks', homeworks_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
-    <%= link_to 'Student Recap', recap_homeworks_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.teacher? %>
+    <%= link_to 'Grades', recap_homeworks_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.teacher? %>
     <%= button_to 'sign out', destroy_user_session_path, method: :delete, data: { turbo: false }, class:'rounded-full bg-red-500 py-2 px-4' %>
   </div>
 </div>

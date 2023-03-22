@@ -2,17 +2,28 @@
   <h1 class="text-3xl font-bold underline">Send your homework</h1>
 </div>
 
-<% if current_user.has_a_homework? %>
+<% if current_user.has_a_homework? && !current_user.is_graded? %>
   <div class="w-2/3">
     <div class="add-ticket my-5 bg-red-100 rounded p-3 text-red-500 text-xl font-bold">
-      WOW beware looks like you already posted your homework, if you send another one, the first one will be deleted !
+      Beware ! It looks like you already posted your homework, if you send another one, the first one will be deleted !
     </div>
   </div>
 <% end %>
 
 
 
-
 <div class="tickets w-2/3">
-  <%= render 'form' %>
+  <% if @homework.teacher_graded_this_student_already? %>
+    <div class="add-ticket my-5 bg-red-100 rounded p-3 text-red-500 text-xl font-bold">
+      You can't post your homework anymore, the deadline is over !
+    </div>
+  <% else %>
+    <div class="add-ticket my-5 bg-purple-100 rounded p-3 text-purple-900">
+      <h3 class="text-xl">You can simply copy paste in this form the title and url of your webpage</h3>
+      <p class="text-m italic mb-2">the url should be a google drive sharing link</p>
+      <%= turbo_frame_tag @homework do %>
+          <%= render 'form', homework: @homework %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
