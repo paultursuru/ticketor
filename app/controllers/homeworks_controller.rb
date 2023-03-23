@@ -1,25 +1,25 @@
 class HomeworksController < ApplicationController
-  before_action :redirect_to_root, except: [:new, :create]
+  before_action :redirect_to_root, except: [:new, :create, :edit, :update]
 
   def index
     @homeworks = Homework.all
   end
 
   def new
-    @homework = current_user.homeworks.new
+    if current_user.has_a_homework?
+      @homework = current_user.homeworks.first
+      redirect_to edit_homework_path(@homework)
+    else
+      @homework = current_user.homeworks.new
+    end
   end
 
   def create
     @homework = current_user.homeworks.new(homework_params)
     if @homework.save
-      respond_to do |format|
-        format.html { redirect_to root_path, notice: "Homework received ! 😉" }
-        format.turbo_stream { flash.now[:notice] = "Homework received ! 😉" }
-      end
+      redirect_to root_path, notice: "Homework received ! 😉"
     else
-      respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@homework, partial: "homeworks/form", locals: { homework: @homework }), status: :unprocessable_entity }
-      end
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -29,6 +29,11 @@ class HomeworksController < ApplicationController
 
   def update
     @homework = Homework.find(params[:id])
+    if @homework.update(homework_params)
+      redirect_to root_path, notice: "Homework updated ! 😉"
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def grade # method to grade homeworks

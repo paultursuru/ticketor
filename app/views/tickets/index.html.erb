@@ -1,21 +1,21 @@
-<div class="flex w-2/3 mb-5">
-  <%= turbo_frame_tag "first_turbo_frame", class: "flex w-full justify-between" do %>
-    <h1 class="text-3xl font-bold underline">Tickets</h1>
+<div class="flex w-full md:w-2/3 mb-5">
+  <%= turbo_frame_tag "first_turbo_frame", class: "flex w-full justify-between items-center" do %>
+    <h1 class="text-2xl md:text-3xl font-bold underline">Tickets</h1>
 
     <% if current_user.student? %>
       <%= link_to sanitize("<i class='fa-solid fa-plus'></i> New ticket"),
                   new_ticket_path,
                   data: { turbo_frame: dom_id(@ticket) },
-                  class: "rounded bg-purple-100 text-purple-900 border-purple-900 py-2 px-4" %>
+                  class: "rounded bg-purple-100 text-purple-900 border-purple-900 border-none py-2 px-4 text-xs md:text-md" %>
     <% end %>
   <% end %>
 </div>
 
 
-<div class="tickets w-2/3">
+<div class="tickets w-full md:w-2/3" data-controller= "ticketable" data-ticketable-cancel-id-value="cancel-<%=current_user.id%>" data-action="turbo:before-stream-render->ticketable#showCancelBtns">
   <%= turbo_frame_tag @ticket %>  <%# frame tag targeted when clicking on new path %>
   <%= turbo_stream_from "tickets" %>  <%# connecting to broadcast / stream %>
-  <%= turbo_frame_tag "tickets", class:"#{'teacher' if current_user.teacher?}", data: {controller: "ticketable", ticketable_cancel_id_value: "cancel-#{current_user.id}"} do %> <%# frame tag targeted after create %>
+  <%= turbo_frame_tag "tickets", class:"#{'teacher' if current_user.teacher?}" do %> <%# frame tag targeted after create %>
     <%= render @tickets %>
   <% end %>
 </div>

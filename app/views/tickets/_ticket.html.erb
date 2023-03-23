@@ -4,10 +4,10 @@
       <h3 class="mb-2 text-xl"><%= ticket.user.username %></h3>
       <em class="text-xs"><%= created_on(ticket) %></em>
     </div>
-    <div class="flex justify-between items-end my-2">
-      <p><%= ticket.content %></p>
+    <div class="flex md:justify-between md:items-end flex-col md:flex-row my-2">
+      <p class="text-xs md:text-base mb-3 md:mb-0"><%= ticket.content %></p>
       <div class="hidden cancel-ticket cancel-<%= ticket.user.id %>" data-ticketable-target="cancelBtn">
-        <%= link_to 'problem solved !', ticket_path(ticket), data: {turbo_method: :delete}, class:'bg-emerald-700 text-white rounded py-2 px-4' %>
+        <%= link_to 'problem solved !', ticket_path(ticket), data: {turbo_method: :delete}, class:'bg-emerald-700 text-white text-xs md:text-sm rounded py-2 px-4' %>
       </div>
     </div>
   </div>

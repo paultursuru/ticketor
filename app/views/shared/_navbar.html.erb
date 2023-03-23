@@ -1,17 +1,21 @@
 <div class="flex justify-between items-center w-full p-5 fixed top-0">
   <div class="nav-left">
     <% unless (action_name == "index" && controller_name == "tickets") %>
-      <%= link_to root_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' do %>
+      <%= link_to root_path, class: 'underline underline-offset-8 text-xs hover:no-underline transition-all mr-5' do %>
         <i class="fa-solid fa-arrow-left"></i><span class="ml-2">back to tickets</span>
       <% end %>
     <% end %>
   </div>
   <div class="flex justify-end items-center">
-    <%= link_to 'Tickets', root_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
-    <%= link_to 'Daily Recap', recap_tickets_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
-    <%= link_to 'Send your homework', new_homework_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.student? %>
-    <%= link_to 'Homeworks', homeworks_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.is_team? %>
-    <%= link_to 'Grades', recap_homeworks_path, class: 'underline underline-offset-8 hover:no-underline transition-all mr-5' if current_user.teacher? %>
-    <%= button_to 'sign out', destroy_user_session_path, method: :delete, data: { turbo: false }, class:'rounded-full bg-red-500 py-2 px-4' %>
+    <% if current_user.has_a_homework? %>
+      <%= link_to 'Change your homework', edit_homework_path(current_user.homeworks.first), class: 'underline underline-offset-8 text-xs hover:no-underline transition-all mr-5' if current_user.student? %>
+    <% else %>
+      <%= link_to 'Send your homework', new_homework_path, class: 'underline underline-offset-8 text-xs hover:no-underline transition-all mr-5' if current_user.student? %>
+    <% end %>
+    <%= link_to 'Tickets', root_path, class: 'underline underline-offset-8 md:block hidden text-xs hover:no-underline transition-all mr-5' if current_user.is_team? %>
+    <%= link_to 'Daily recap', recap_tickets_path, class: 'underline underline-offset-8 text-xs hover:no-underline transition-all mr-5' if current_user.is_team? %>
+    <%= link_to 'Grade homeworks', homeworks_path, class: 'underline underline-offset-8 md:block hidden text-xs hover:no-underline transition-all mr-5' if current_user.is_team? %>
+    <%= link_to 'Homeworks recap', recap_homeworks_path, class: 'underline underline-offset-8 md:block hidden text-xs hover:no-underline transition-all mr-5' if current_user.teacher? %>
+    <%= button_to 'sign out', destroy_user_session_path, method: :delete, data: { turbo: false }, class:'rounded-full text-xs bg-red-500 py-2 px-4' %>
   </div>
 </div>
