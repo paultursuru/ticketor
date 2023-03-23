@@ -1,11 +1,11 @@
 class Homework < ApplicationRecord
   belongs_to :user
-  before_create :destroy_first_homework, if: :has_another_homework?
+  before_validation :can_still_be_posted?, on: :create
 
   validates :title, :url, presence: true
 
   scope :graded, -> { where.not(grade: nil)}
-  # Ex:- scope :active, -> {where(:active => true)}
+  scope :not_graded, -> { where(grade: nil)}
 
   def today?
     created_at.day == Date.today.day
@@ -21,22 +21,33 @@ class Homework < ApplicationRecord
 
   def self.to_csv
     require "csv"
-    attributes = %w{username email grade url }
+    attributes = %w{username email grade title url }
 
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
       graded.each do |homework|
-        csv << [homework.username, homework.user.email, homework.grade, homework.url]
+        csv << [homework.username, homework.user.email, homework.grade, homework.title, homework.url]
       end
     end
   end
 
-  def destroy_first_homework
-    user.homeworks.first.destroy
+  def can_still_be_posted?
+    if user_has_more_than_one_homework? && teacher_graded_this_student_already?
+      errors.add(:base, "You already have one graded homework")
+      false
+    elsif user_has_more_than_one_homework?
+      user.homeworks.first.destroy
+    else
+      true
+    end
   end
 
-  def has_another_homework?
-    user.homeworks.count >= 1
+  def user_has_more_than_one_homework?
+    user.has_a_homework?
+  end
+
+  def teacher_graded_this_student_already?
+    user.homeworks.graded.any?
   end
 end

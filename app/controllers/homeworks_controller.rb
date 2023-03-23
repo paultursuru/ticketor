@@ -1,26 +1,25 @@
 class HomeworksController < ApplicationController
+  before_action :redirect_to_root, except: [:new, :create, :edit, :update]
+
   def index
-    redirect_to root_path if current_user.student?
     @homeworks = Homework.all
   end
 
   def new
-    @homework = Homework.new
+    if current_user.has_a_homework?
+      @homework = current_user.homeworks.first
+      redirect_to edit_homework_path(@homework)
+    else
+      @homework = current_user.homeworks.new
+    end
   end
 
   def create
-    @homework = Homework.new(homework_params)
-    @homework.user = current_user
+    @homework = current_user.homeworks.new(homework_params)
     if @homework.save
-      respond_to do |format|
-        format.html { redirect_to root_path, notice: "Homework received ! 😉" }
-        format.turbo_stream { flash.now[:notice] = "Homework received ! 😉" }
-      end
+      redirect_to root_path, notice: "Homework received ! 😉"
     else
-      respond_to do |format|
-        format.html { render :new, status: :unprocessable_entity, alert: "Woupsy something went wrong 😬" }
-        format.turbo_stream { flash.now[:alert] = "Woupsy something went wrong 😬"}
-      end
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -30,10 +29,14 @@ class HomeworksController < ApplicationController
 
   def update
     @homework = Homework.find(params[:id])
+    if @homework.update(homework_params)
+      redirect_to root_path, notice: "Homework updated ! 😉"
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
-  def grade
-    redirect_to root_path unless current_user.teacher?
+  def grade # method to grade homeworks
     @homeworks = Homework.all
     @homework = Homework.find(params[:id])
     if params[:grade] == "nil"
@@ -47,16 +50,29 @@ class HomeworksController < ApplicationController
   end
 
   def student_recap
-    redirect_to root_path unless current_user.teacher?
     @homeworks = Homework.all
     @graded = @homeworks.graded
+    @students_with_no_homework = User.with_no_homework
     respond_to do |format|
       format.html
       format.csv { send_data @homeworks.to_csv, filename: "grades-#{Date.today}.csv" }
     end
   end
 
+  def grade_zero
+    @student = User.find(params[:student])
+
+    @homework = Homework.new(user: @student, title: "no homework", url: "no url", grade: 0)
+    if @homework.save
+      redirect_to recap_homeworks_path, notice: "graded zero"
+    end
+  end
+
   private
+
+  def redirect_to_root
+    redirect_to root_path unless current_user.is_team?
+  end
 
   def homework_params
     params.require(:homework).permit(:title, :url)
