@@ -52,7 +52,8 @@ class HomeworksController < ApplicationController
   def student_recap
     @homeworks = Homework.all
     @graded = @homeworks.graded
-    @students_with_no_homework = User.with_no_homework
+    @all_students = User.student
+    @students_with_no_homework = @all_students.with_no_homework
     respond_to do |format|
       format.html
       format.csv { send_data @homeworks.to_csv, filename: "grades-#{Date.today}.csv" }
