@@ -6,7 +6,7 @@ namespace :generate do
   end
   desc "add a few students"
   task students: :environment do
-    users = ["joe", "john", "jane", "jim", "joey"]
-    user_instances = users.map { |user| User.create!(email: "#{user}@mail.com", password: "123456", username: user) }
+    users = ["joe longname", "john cool", "jane awesome", "jim carrey", "joey very much long name"]
+    user_instances = users.map { |user| User.create!(email: "#{user.gsub(" ", ".")}@mail.com", password: "123456", username: user) }
   end
 end
