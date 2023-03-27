@@ -1,5 +1,5 @@
 <%= turbo_frame_tag ticket do %>
-  <div class="ticket my-5 bg-gradient-to-br from-purple-900 to-purple-700 rounded p-3 group shadow-light border border-transparent hover:border-purple-100">
+  <div class="ticket my-5 bg-gradient-to-br from-purple-900 to-purple-700 rounded p-3 group shadow-light">
     <div class="flex justify-between items-center">
       <h3 class="mb-2 text-xl"><%= ticket.user.username %></h3>
       <em class="text-xs"><%= created_on(ticket) %></em>
