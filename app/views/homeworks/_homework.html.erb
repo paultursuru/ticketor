@@ -20,7 +20,7 @@
         <em class="text-xs"><%= created_on(homework) %></em>
       <% end %>
     </div>
-    <p><%= link_to 'file', urlify(homework.url) %></p>
+    <p><%= link_to 'file', urlify(homework.url), target:'_blank' %></p>
 
     <% if current_user.teacher? %>
       <div class="flex w-full justify-between flex-wrap group-hover:mt-8 opacity-0 h-0 transition duration-300 overflow-hidden group-hover:h-fit group-hover:opacity-100" data-grade-target="form">

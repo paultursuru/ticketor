@@ -36,7 +36,7 @@
     <div class="flex flex-col justify-start items-center divide-y h-24 w-full bg-purple-100 text-purple-900 rounded border-purple-500 p-5 my-2">
       <h3 class="text-xl text-center"><%= homework.user.username %></h3>
       <div class="flex justify-betweeen">
-        <p><%= link_to homework.title, homework.url, class:'decoration-none text-purple-900' %></p>
+        <p><%= link_to homework.title, urlify(homework.url), class:'decoration-none text-purple-900 text-xs', target:'_blank' %></p>
         <p><%= homework.grade %></p>
       </div>
     </div>
