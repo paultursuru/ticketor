@@ -4,8 +4,8 @@ class Homework < ApplicationRecord
 
   validates :title, :url, presence: true
 
-  scope :graded, -> { where.not(grade: nil)}
-  scope :not_graded, -> { where(grade: nil)}
+  scope :graded,     -> { where.not(grade: [nil, ""])}
+  scope :not_graded, -> { where(grade: [nil, ""])}
 
   def today?
     created_at.day == Date.today.day
@@ -17,6 +17,10 @@ class Homework < ApplicationRecord
 
   def graded?
     !grade.nil?
+  end
+
+  def not_zero?
+    grade != 0
   end
 
   def self.to_csv

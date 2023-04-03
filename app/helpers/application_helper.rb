@@ -1,6 +1,6 @@
 module ApplicationHelper
   def username(something)
-    something.user == current_user ? "You" : something.user.username.capitalize
+    something.user == current_user ? "You" : something.user.username.titleize
   end
 
   def created_on(something)

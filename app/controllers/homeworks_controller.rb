@@ -63,7 +63,7 @@ class HomeworksController < ApplicationController
   def grade_zero
     @student = User.find(params[:student])
 
-    @homework = Homework.new(user: @student, title: "no homework", url: "no url", grade: 0)
+    @homework = Homework.new(user: @student, title: "no homework", grade: 0)
     if @homework.save
       redirect_to recap_homeworks_path, notice: "graded zero"
     end

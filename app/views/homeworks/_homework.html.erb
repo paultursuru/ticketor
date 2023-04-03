@@ -1,28 +1,42 @@
 <div class="ticket my-10 bg-purple-700 rounded p-3 relative" data-controller="grader">
-  <div data-grader-target="grade" class="absolute -top-3 -right-3 flex justify-center items-center group/grade">
-    <% if homework.grade && current_user.teacher? %>
+  <div data-grader-target="grade" class="absolute -top-2 -right-2 flex justify-center items-center group/grade">
+
+    <% if homework.graded? %>
       <span class="h-10 w-10 bg-purple-100 absolute flex justify-center items-center text-purple-900 border-2 border-purple-500 rounded-full z-10 group-hover/grade:-z-10">
         <%= homework.grade %>
       </span>
-      <span data-grade="nil" data-url="<%= grade_homework_path(homework) %>" data-action="click->grader#grading" class="h-10 w-10 bg-red-900 absolute flex justify-center items-center text-red-100 border-2 border-red-100 rounded-full ">
-        x
-      </span>
+
+      <% if current_user.teacher? %> <%# Only a teacher can grade / remove grade %>
+        <span data-grade="nil" data-url="<%= grade_homework_path(homework) %>" data-action="click->grader#grading" class="h-10 w-10 bg-red-900 absolute flex justify-center items-center text-red-100 border-2 border-red-100 rounded-full ">
+          x
+        </span>
+      <% end %>
     <% end %>
+
   </div>
 
   <div class="flex justify-between items-start my-2 flex-col group">
     <div class="flex justify-between items-center w-full">
-      <% if current_user.teacher? %>
         <h3 class="mb-2 text-xl"><%= username(homework) %></h3>
         <em class="text-xs"><%= created_on(homework) %></em>
-      <% else %>
-        <p class="text-2xl"><%= homework.title %></p>
-        <em class="text-xs"><%= created_on(homework) %></em>
-      <% end %>
     </div>
-    <p><%= link_to 'file', urlify(homework.url), target:'_blank' %></p>
 
-    <% if current_user.teacher? %>
+    <% if homework.url.nil? %>
+      <div class="flex w-full justify-between items-center">
+        <p>This homework doesn't have a URL 😬</p>
+
+        <% if homework.not_zero? && current_user.teacher? %>
+          <span data-grade="0" data-url="<%= grade_homework_path(homework) %>" data-action="click->grader#grading" class="h-max w-max py-1 px-3 bg-red-900 flex justify-center items-center text-red-100 border-2 border-red-100 rounded-full cursor-pointer">
+            grade zero
+          </span>
+        <% end %>
+      </div>
+    <% else %>
+      <p><i class="fa-solid fa-link"></i> <%= link_to homework.title, urlify(homework.url), target:'_blank' %></p>
+    <% end %>
+
+
+    <% if current_user.teacher? %> <%# Only a teacher can grade / remove grade %>
       <div class="flex w-full justify-between flex-wrap group-hover:mt-8 opacity-0 h-0 transition duration-300 overflow-hidden group-hover:h-fit group-hover:opacity-100" data-grade-target="form">
         <% (10..20).to_a.each do |grade| %>
           <span class="rounded-full bg-purple-<%= homework.grade == grade ? "900" : "100"%> text-purple-<%= homework.grade == grade ? "100" : "700"%> border-2 border-purple-100 h-10 w-10 mr-2 mb-2 transition cursor-pointer flex justify-center items-center hover:text-purple-100 hover:bg-emerald-700"
@@ -36,5 +50,6 @@
         <%#= link_to 'close ticket !', ticket_path(ticket), data: {turbo_method: :delete}, class:'bg-emerald-700 text-white rounded py-2 px-4' %>
       </div>
     <% end %>
+
   </div>
 </div>

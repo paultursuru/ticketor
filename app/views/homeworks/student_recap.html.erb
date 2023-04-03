@@ -33,11 +33,24 @@
 </div>
 <div class="grid grid-cols-4 gap-4 w-2/3 mt-5">
   <% @homeworks.each do |homework| %>
-    <div class="flex flex-col justify-start items-center divide-y h-24 w-full bg-purple-100 text-purple-900 rounded border-purple-500 p-5 my-2">
+    <div  data-controller="grader" class="flex flex-col justify-start items-center divide-y h-24 w-full bg-purple-100 text-purple-900 rounded border-purple-500 p-5 my-2 relative">
+      <% if homework.graded? %>
+        <div data-grader-target="grade" class="absolute top-0 right-0 flex justify-center items-center group/grade">
+          <span class="h-10 w-10 bg-purple-100 absolute flex justify-center items-center text-purple-900 border-2 border-purple-500 rounded-full z-10 group-hover/grade:-z-10">
+            <%= homework.grade %>
+          </span>
+          <span data-grade="nil" data-url="<%= grade_homework_path(homework) %>" data-action="click->grader#grading" class="h-10 w-10 bg-red-900 absolute flex justify-center items-center text-red-100 border-2 border-red-100 rounded-full cursor-pointer">
+            x
+          </span>
+        </div>
+      <% else %>
+        <div class="absolute -top-1 right-14 flex justify-center items-center group/grade">
+          <span class="h-max w-max py-1 px-3 bg-red-100 text-xs absolute flex justify-center items-center text-red-900 border border-red-900 rounded-full z-10">not graded yet !</span>
+        </div>
+        <% end %>
       <h3 class="text-xl text-center"><%= homework.user.username %></h3>
       <div class="flex justify-betweeen">
         <p><%= link_to homework.title, urlify(homework.url), class:'decoration-none text-purple-900 text-xs', target:'_blank' %></p>
-        <p><%= homework.grade %></p>
       </div>
     </div>
   <% end %>
